@@ -2,17 +2,44 @@ import { FaGoogle,FaGithub, FaFacebook,FaInstagram, FaTwitter } from "react-icon
 import qZone1 from '../assets/qZone1.png'
 import qZone2 from '../assets/qZone2.png'
 import qZone3 from '../assets/qZone3.png'
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const Rightsidebar = () => {
+
+  const {signInWithGoogle,signInWithGithub}=useContext(AuthContext)
+  const navigate =useNavigate()
+
+  const handleSignInWithGoogle =()=>{
+    signInWithGoogle()
+    .then((res) => {
+      console.log(res.user)
+      navigate('/')
+    }).catch((err) => {
+      console.log(err.message)
+    })
+  }
+  const handleSignInWithGithub =()=>{
+    signInWithGithub()
+    .then((res) => {
+      console.log(res.user)
+      navigate('/')
+    }).catch((err) => {
+      console.log(err.message)
+    })
+  }
+
+
   return (
     <>
      <div className="p-3 space-y-2">
         <h2 className="text-3xl mb-2 font-bold">Login With</h2>
-          <button className="btn btn-outline btn-primary">
+          <button onClick={handleSignInWithGoogle} className="btn btn-outline btn-primary">
             <FaGoogle></FaGoogle>
             Login with Google
           </button>
-          <button className="btn btn-outline">
+          <button onClick={handleSignInWithGithub} className="btn btn-outline">
             <FaGithub></FaGithub>
             Login with GitHub
           </button>

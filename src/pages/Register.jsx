@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import Navbar from "../share/Navbar"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../context/AuthProvider"
+import { AiOutlineEyeInvisible,AiOutlineEye} from "react-icons/ai";
 
 
 const Register = () => {
@@ -9,6 +10,7 @@ const Register = () => {
   const [registerData, setRegisterData] =useState({name:'',photo_url:'',email:'',password:''})
   const [success,setSuccess] =useState("")
   const [errMessage, setErrMessage] =useState('')
+  const [showPass,setShowPass] =useState(false)
 
   const {createUser} = useContext(AuthContext)
 
@@ -33,6 +35,21 @@ const Register = () => {
 
       const email =registerData.email
       const password =registerData.password
+
+      const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+
+    // Check if the new password matches the pattern
+      const isValid = passwordPattern.test(password);
+
+      if (password.length<6) {
+        setErrMessage('Password Should be 6 Character or Longer')
+        return;
+      }else if(!isValid){
+        setErrMessage('Password contain atleast on Uppercase')
+            return;
+      }
+
+
       createUser(email,password)
       .then((result) => {
         const user =result.user
@@ -74,7 +91,20 @@ const Register = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="password" name="password" value={registerData.password} onChange={handleInputChange} placeholder="password" className="input input-bordered" required />
+              <div className="w-full relative">
+              <input className=" w-full input input-bordered" type={showPass?'text':'password'} placeholder="Password" value={registerData.password} name="password" id="password" onChange={handleInputChange} required/>
+              <div className="form-control mt-6">
+                {
+                  errMessage && <p className="text-red-700 ">{errMessage}</p>
+                }
+                
+              </div>
+              <span className="absolute right-2 top-4" onClick={()=>setShowPass(!showPass)}>
+                  {
+                      showPass?<AiOutlineEye/> :<AiOutlineEyeInvisible/>
+                  }
+              </span>
+              </div>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
               </label>
