@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
+import '../CSS/leftsidebar.css'
 
 
 const Leftsidebar = () => {
@@ -29,7 +30,7 @@ const Leftsidebar = () => {
              return <NavLink 
              onClick={()=>handleRouter(category.id)}
               className={`block px-4 font-semibold btn btn-active text-[#9F9F9F] text-lg ${({ isActive}) =>
-               isActive ? "btn-success" : ""
+               isActive ? "active" : ""
             }`}
               to={`/category/${category.id}`}
               key={category.id}>

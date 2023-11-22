@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Navbar from "../share/Navbar"
 import { AiOutlineEyeInvisible,AiOutlineEye} from "react-icons/ai";
 import { useContext, useState } from "react";
@@ -10,11 +10,16 @@ const Login = () => {
   const [errMessage, setErrMessage] =useState('')
   const [showPass,setShowPass] =useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
+  console.log(location)
+  
   const {signIn} =useContext(AuthContext)
 
   const handleInputChange =(e)=>{
     const {name,value}=e.target;
+
+   
 
       setRegisterData({
         ...registerData,
@@ -35,7 +40,7 @@ const Login = () => {
     signIn(email,password)
     .then((result) => {
       console.log(result.user)
-      navigate('/')
+      navigate(location?.state? location.state: '/')
     }).catch((err) => {
       setErrMessage(err.message)
     })

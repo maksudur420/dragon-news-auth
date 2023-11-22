@@ -37,6 +37,7 @@ const Home = () => {
           <Leftsidebar/>
         </div>
         <div className="md:col-span-2 col-span-1">
+          <h3 className="text-2xl mt-3 pl-2 font-bold">Dragon News Home</h3>
           {allNews}
         </div>
         <div>
